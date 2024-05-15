@@ -120,3 +120,4 @@ C:\Users\Casa\Documents\Estudos-Programação\Biblioteca\API\Biblioteca\obj\Debu
 C:\Users\Casa\Documents\Estudos-Programação\Biblioteca\API\Biblioteca\obj\Debug\net8.0\NomeDoProjeto.pdb
 C:\Users\Casa\Documents\Estudos-Programação\Biblioteca\API\Biblioteca\obj\Debug\net8.0\NomeDoProjeto.genruntimeconfig.cache
 C:\Users\Casa\Documents\Estudos-Programação\Biblioteca\API\Biblioteca\obj\Debug\net8.0\ref\NomeDoProjeto.dll
+C:\Users\Casa\Documents\Estudos-Programação\Biblioteca\API\Biblioteca\obj\Debug\net8.0\NomeDoProjeto.sourcelink.json
