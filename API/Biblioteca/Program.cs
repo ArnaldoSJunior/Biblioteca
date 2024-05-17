@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -49,16 +48,41 @@ app.MapDelete("/usuario/deletar/{id}", ([FromRoute] string id, [FromServices] Ap
 });
 
 //CRUD LIVRO
-
-app.MapPost("/livro/cadastrar/", ([FromBody] Livro livro, [FromServices] AppDbContext ctx)=>
+// Cadastrar um novo livro
+app.MapPost("/livro/cadastrar/", ([FromBody] Livro livro, [FromServices] AppDbContext ctx) =>
 {
-     Livro? livrobuscado = ctx.TabelaLivros.FirstOrDefault(x =>x.Titulo == livro.Titulo);
-     if(livrobuscado is null){
+     Livro livroBuscado = ctx.TabelaLivros.FirstOrDefault(x => x.Titulo == livro.Titulo);
+     if (livroBuscado == null)
+     {
           ctx.TabelaLivros.Add(livro);
           ctx.SaveChanges();
           return Results.Created("Cadastro de livro realizado!!", livro);
      }
      return Results.BadRequest("Já existe um livro igual!!");
+});
+
+// Listar todos os livros
+app.MapGet("/livro/listar/", ([FromServices] AppDbContext ctx) =>
+{
+     var livros = ctx.TabelaLivros.ToList();
+     if (livros.Any())
+     {
+          return Results.Ok(livros);
+     }
+     return Results.NotFound("Não existem livros cadastrados!");
+});
+
+// Deletar um livro por ID
+app.MapDelete("/livro/deletar/{id}", ([FromRoute] string id, [FromServices] AppDbContext ctx) =>
+{
+     Livro livro = ctx.TabelaLivros.FirstOrDefault(x => x.LivroId == id);
+     if (livro != null)
+     {
+          ctx.TabelaLivros.Remove(livro);
+          ctx.SaveChanges();
+          return Results.Ok("Livro removido com sucesso!!");
+     }
+     return Results.NotFound("Livro não encontrado");
 });
 
 app.Run();

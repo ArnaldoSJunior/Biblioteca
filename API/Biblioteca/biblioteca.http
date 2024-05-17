@@ -14,6 +14,7 @@ GET http://localhost:5162/usuario/listar/ HTTP/1.1
 
 ### Deletar Usuário
 DELETE  http://localhost:5162/usuario/deletar/26baef00-de56-46fc-85d3-00d329757c61 HTTP/1.1
+
 ### Cadastro de livro
 POST http://localhost:5162/livro/cadastrar/ HTTP/1.1
 Content-Type: application/json
@@ -24,3 +25,9 @@ Content-Type: application/json
     "editora": "Moderna",
     "categoria": "Romance, Sátira, Paródia, Ficção de aventura"
 }
+
+###Listar livros
+GET http://localhost:5162/livro/listar/ HTTP/1.1
+
+### Deletar livro
+DELETE  http://localhost:5162/livro/deletar/26baef00-de56-46fc-85d3-00d329757c61 HTTP/1.1

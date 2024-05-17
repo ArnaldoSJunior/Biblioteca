@@ -2535,19 +2535,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Casa\\.nuget\\packages\\": {}
+    "C:\\Users\\arnal\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Casa\\Documents\\Estudos-Programação\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj",
+      "projectUniqueName": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\NomeDoProjeto.csproj",
       "projectName": "NomeDoProjeto",
-      "projectPath": "C:\\Users\\Casa\\Documents\\Estudos-Programação\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj",
-      "packagesPath": "C:\\Users\\Casa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Casa\\Documents\\Estudos-Programação\\Biblioteca\\API\\Biblioteca\\obj\\",
+      "projectPath": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\NomeDoProjeto.csproj",
+      "packagesPath": "C:\\Users\\arnal\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Casa\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\arnal\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -2610,7 +2610,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
