@@ -9,7 +9,7 @@ public DateTime DataDevolucao { get; set; }
 
 public Devolucao(string EmprestimoId, DateTime dataDevolucao){
         DevolucaoId = Guid.NewGuid().ToString();
-        EmprestimoId = emprestimoId
+        EmprestimoId = emprestimoId;
         DataDevolucao = dataDevolucao;
 }
 

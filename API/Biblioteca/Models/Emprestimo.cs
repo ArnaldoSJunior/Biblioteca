@@ -4,7 +4,6 @@ public class Emprestimo{
     public string EmprestimoId { get; set; }
     public Usuario Usuario { get; set; }
     public Livro Livro { get; set; }
-    public DateTime DataEmprestimo { get; set; }
     public DateTime? DataEmprestimo { get; set; }
 
     public Emprestimo() { } 
