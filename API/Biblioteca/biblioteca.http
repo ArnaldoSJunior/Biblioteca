@@ -51,3 +51,15 @@ Content-Type: application/json
     "texto": "Este livro é incrível!",
     "usuario": "migvjung@gmail.com"
 }
+
+### Registrar um emprestimo
+POST http://localhost:5162/emprestimo/registrar HTTP/1.1
+Content-Type: application/json
+
+{
+    "usuarioId": "b71e7b82-93b7-4aeb-b1e8-19d6c206a416",
+    "livroId": "5310e63a-874f-4f7d-b832-9cc2617d6de3"
+}
+
+### Listar emprestimos
+GET http://localhost:5162/emprestimo/listar/ HTTP/1.1

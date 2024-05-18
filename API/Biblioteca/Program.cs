@@ -111,4 +111,42 @@ app.MapPost("/livro/{id}/comentar/", ([FromRoute] string id, [FromBody] Comentar
      return Results.NotFound("Livro não encontrado");
 });
 
+// CRUD EMPRESTIMO
+
+// Registrar emprestimo
+app.MapPost("/emprestimo/registrar", ([FromBody] Emprestimo emprestimo, [FromServices] AppDbContext ctx) =>{
+    var usuario = ctx.TabelaUsuarios.FirstOrDefault(u => u.UsuarioId == emprestimo.UsuarioId);
+    var livro = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.LivroId);
+
+    if (usuario == null){
+        return Results.NotFound("Usuário não encontrado");
+    }
+    if (livro == null){
+        return Results.NotFound("Livro não encontrado");
+    }
+
+    var emprestimoExistente = ctx.TabelaEmprestimos.FirstOrDefault(l => l.LivroId == emprestimo.LivroId);
+
+    if (emprestimoExistente != null){
+        return Results.BadRequest("Este livro já está emprestado!");
+    }
+
+    var novoEmprestimo = new Emprestimo(emprestimo.UsuarioId, emprestimo.LivroId, DateTime.Now);
+    ctx.TabelaEmprestimos.Add(novoEmprestimo);
+
+    return Results.Created($"/emprestimo/{novoEmprestimo.EmprestimoId}", novoEmprestimo);
+});
+
+// Listar emprestimos
+app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>
+{
+    var emprestimos = ctx.TabelaEmprestimos.ToList();
+    
+    if (emprestimos.Any()){
+        return Results.Ok(emprestimos);
+    }
+    return Results.NotFound("Não existem empréstimos cadastrados!");
+});
+
+
 app.Run();
