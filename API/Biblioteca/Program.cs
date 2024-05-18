@@ -125,9 +125,9 @@ app.MapPost("/emprestimo/registrar", ([FromBody] Emprestimo emprestimo, [FromSer
         return Results.NotFound("Livro não encontrado");
     }
 
-    var emprestimoExistente = ctx.TabelaEmprestimos.FirstOrDefault(l => l.Livro.LivroId == emprestimo.Livro.LivroId);
+    livro.Emprestado = true;
 
-    if (emprestimoExistente != null){
+    if (livro.Emprestado == true){
         return Results.BadRequest("Este livro já está emprestado!");
     }
 
