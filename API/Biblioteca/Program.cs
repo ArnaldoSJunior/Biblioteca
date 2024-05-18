@@ -157,5 +157,35 @@ app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>{
     return Results.NotFound("Não existem empréstimos cadastrados!");
 });
 
+//CRUD Devolução
+
+//Registrar Devolução
+
+app.MapPost("/devolucao/registrar", ([FromBody] Devolucao Devolucao, [FromServices] AppDbContext ctx) =>
+{
+   var emprestimo = ctx.TabelaEmprestimos.FirstOrDefault(e => e.EmprestimoId == devolucao.Emprestimo.EmprestimoId);
+if (emprestimo == null)
+    {
+        return NotFound(); // Empréstimo não encontrado
+    }
+
+    if (emprestimo.Livro == null || emprestimo.Usuario == null)
+    {
+        return BadRequest("Empréstimo inválido."); // Empréstimo não possui livro ou usuário associado
+    }
+
+    var livro = emprestimo.Livro;
+    if (livro.Emprestado == false)
+    {
+        return BadRequest("O livro já foi devolvido."); // Livro já foi devolvido
+    }
+
+    livro.Emprestado = false;
+    livro.DataDevolucao = DateTime.Now;
+
+    ctx.SaveChanges(); // Salva as mudanças no banco de dados
+
+    return Ok("Livro devolvido com sucesso.");
+});
 
 app.Run();

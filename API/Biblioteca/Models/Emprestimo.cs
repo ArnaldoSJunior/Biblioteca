@@ -5,6 +5,7 @@ public class Emprestimo{
     public Usuario Usuario { get; set; }
     public Livro Livro { get; set; }
     public DateTime DataEmprestimo { get; set; }
+    public DateTime? DataEmprestimo { get; set; }
 
     public Emprestimo() { } 
     public Emprestimo(Usuario usuario, Livro livro, DateTime dataEmprestimo){

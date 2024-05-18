@@ -67,3 +67,14 @@ Content-Type: application/json
 
 ### Listar emprestimos
 GET http://localhost:5162/emprestimo/listar/ HTTP/1.1
+
+### Registrar Devolução
+
+POST http://localhost:5162/devolucao/registrar HTTP/1.1
+Content-Type: application/json
+
+{
+    "emprestimo": {
+        "emprestimoId": "b71e7b82-93b7-4aeb-b1e8-19d6c206a416"
+    }
+}
