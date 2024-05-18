@@ -131,7 +131,12 @@ app.MapPost("/emprestimo/registrar", ([FromBody] Emprestimo emprestimo, [FromSer
         return Results.BadRequest("Este livro já está emprestado!");
     }
 
-    var novoEmprestimo = new Emprestimo(usuario, livro, DateTime.Now);
+
+    var novoEmprestimo = new Emprestimo {
+        Usuario = usuario,
+        Livro = livro,
+        DataEmprestimo = DateTime.Now
+    };
 
     ctx.TabelaEmprestimos.Add(novoEmprestimo);
     ctx.SaveChanges();
@@ -140,9 +145,11 @@ app.MapPost("/emprestimo/registrar", ([FromBody] Emprestimo emprestimo, [FromSer
 });
 
 // Listar emprestimos
-app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>
-{
-    var emprestimos = ctx.TabelaEmprestimos.ToList();
+app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>{
+    var emprestimos = ctx.TabelaEmprestimos
+        .Include(e => e.Usuario)
+        .Include(e => e.Livro)
+        .ToList();
     
     if (emprestimos.Any()){
         return Results.Ok(emprestimos);
