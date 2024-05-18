@@ -115,8 +115,8 @@ app.MapPost("/livro/{id}/comentar/", ([FromRoute] string id, [FromBody] Comentar
 
 // Registrar emprestimo
 app.MapPost("/emprestimo/registrar", ([FromBody] Emprestimo emprestimo, [FromServices] AppDbContext ctx) =>{
-    var usuario = ctx.TabelaUsuarios.FirstOrDefault(u => u.UsuarioId == emprestimo.UsuarioId);
-    var livro = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.LivroId);
+    var usuario = ctx.TabelaUsuarios.FirstOrDefault(u => u.UsuarioId == emprestimo.Usuario.UsuarioId);
+    var livro = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.Livro.LivroId);
 
     if (usuario == null){
         return Results.NotFound("Usuário não encontrado");
@@ -125,14 +125,16 @@ app.MapPost("/emprestimo/registrar", ([FromBody] Emprestimo emprestimo, [FromSer
         return Results.NotFound("Livro não encontrado");
     }
 
-    var emprestimoExistente = ctx.TabelaEmprestimos.FirstOrDefault(l => l.LivroId == emprestimo.LivroId);
+    var emprestimoExistente = ctx.TabelaEmprestimos.FirstOrDefault(l => l.Livro.LivroId == emprestimo.Livro.LivroId);
 
     if (emprestimoExistente != null){
         return Results.BadRequest("Este livro já está emprestado!");
     }
 
-    var novoEmprestimo = new Emprestimo(emprestimo.UsuarioId, emprestimo.LivroId, DateTime.Now);
+    var novoEmprestimo = new Emprestimo(usuario, livro, DateTime.Now);
+
     ctx.TabelaEmprestimos.Add(novoEmprestimo);
+    ctx.SaveChanges();
 
     return Results.Created($"/emprestimo/{novoEmprestimo.EmprestimoId}", novoEmprestimo);
 });
