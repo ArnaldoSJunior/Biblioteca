@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\NomeDoProjeto.csproj": {}
+    "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\api\\biblioteca\\NomeDoProjeto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\NomeDoProjeto.csproj": {
+    "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\api\\biblioteca\\NomeDoProjeto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\NomeDoProjeto.csproj",
+        "projectUniqueName": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\api\\biblioteca\\NomeDoProjeto.csproj",
         "projectName": "NomeDoProjeto",
-        "projectPath": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\NomeDoProjeto.csproj",
+        "projectPath": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\api\\biblioteca\\NomeDoProjeto.csproj",
         "packagesPath": "C:\\Users\\arnal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\obj\\",
+        "outputPath": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\api\\biblioteca\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\arnal\\AppData\\Roaming\\NuGet\\NuGet.Config"

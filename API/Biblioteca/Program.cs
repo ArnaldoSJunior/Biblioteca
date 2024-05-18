@@ -85,4 +85,30 @@ app.MapDelete("/livro/deletar/{id}", ([FromRoute] string id, [FromServices] AppD
      return Results.NotFound("Livro não encontrado");
 });
 
+//Avaliar um livro
+app.MapPost("/livro/{id}/avaliar/", ([FromRoute] string id, [FromBody] Avaliacao avaliacao, [FromServices] AppDbContext ctx) =>
+{
+     Livro livro = ctx.TabelaLivros.Include(l => l.Avaliacoes).FirstOrDefault(x => x.LivroId == id);
+     if (livro != null)
+     {
+          livro.Avaliacoes.Add(avaliacao);
+          ctx.SaveChanges();
+          return Results.Created("Avaliação adicionada com sucesso!!", livro);
+     }
+     return Results.NotFound("Livro não encontrado");
+});
+
+// Comentar um livro
+app.MapPost("/livro/{id}/comentar/", ([FromRoute] string id, [FromBody] Comentario comentario, [FromServices] AppDbContext ctx) =>
+{
+     Livro livro = ctx.TabelaLivros.Include(l => l.Comentarios).FirstOrDefault(x => x.LivroId == id);
+     if (livro != null)
+     {
+          livro.Comentarios.Add(comentario);
+          ctx.SaveChanges();
+          return Results.Created("Comentário adicionado com sucesso!!", livro);
+     }
+     return Results.NotFound("Livro não encontrado");
+});
+
 app.Run();

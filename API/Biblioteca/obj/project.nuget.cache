@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HEXsqVvVxJw=",
+  "dgSpecHash": "fIbHb4TJ3Kk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\API\\biblioteca\\NomeDoProjeto.csproj",
+  "projectFilePath": "C:\\Users\\arnal\\OneDrive\\Documentos\\csharp\\Biblioteca\\api\\biblioteca\\NomeDoProjeto.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\arnal\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\arnal\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
