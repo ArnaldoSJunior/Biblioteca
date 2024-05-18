@@ -163,7 +163,7 @@ app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>{
 
 app.MapPost("/devolucao/registrar", ([FromBody] Devolucao devolucao, [FromServices] AppDbContext ctx) =>
 {
-   var Emprestimo = ctx.TabelaEmprestimos.FirstOrDefault(e => e.EmprestimoId == devolucao.Emprestimo.EmprestimoId);
+   var emprestimo = ctx.TabelaEmprestimos.FirstOrDefault(e => e.EmprestimoId == devolucao.Emprestimo.EmprestimoId);
 if (emprestimo == null)
     {
         return Results.NotFound(); // Empréstimo não encontrado
