@@ -181,7 +181,7 @@ if (emprestimo == null)
     }
 
     livro.Emprestado = false;
-    livro.DataDevolucao = DateTime.Now;
+    devolucao.DataDevolucao = DateTime.Now;
 
     ctx.SaveChanges(); // Salva as mudanças no banco de dados
 
