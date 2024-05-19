@@ -85,6 +85,25 @@ app.MapDelete("/livro/deletar/{id}", ([FromRoute] string id, [FromServices] AppD
      return Results.NotFound("Livro não encontrado");
 });
 
+// Alterar Livro
+app.MapPut("/livro/alterar/{id}", ([FromRoute] string id,
+    [FromBody] Livro livroAlterado,
+    [FromServices] AppDbContext ctx) =>
+{
+    Livro? livro = ctx.TabelaLivros.Find(id);
+    if (livro is null)
+    {
+        return Results.NotFound("Produto não encontrado!");
+    }
+    livro.Titulo = livroAlterado.Titulo;
+    livro.Categoria = livroAlterado.Categoria;
+    livro.Autor = livroAlterado.Autor;
+    ctx.TabelaLivros.Update(livro);
+    ctx.SaveChanges();
+    return Results.Ok("Livro alterado!");
+
+});
+
 //Avaliar um livro
 app.MapPost("/livro/{id}/avaliar/", ([FromRoute] string id, [FromBody] Avaliacao avaliacao, [FromServices] AppDbContext ctx) =>
 {
