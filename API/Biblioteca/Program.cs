@@ -219,17 +219,22 @@ app.MapPost("/emprestimo/registrar/{emprestado}", async ([FromRoute]  bool empre
 
 
 // Listar emprestimos
-app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>{
-    var emprestimos = ctx.TabelaEmprestimos
-        .Include(e => e.Usuario)
-        .Include(e => e.Livro)
-        .ToList();
-    
-    if (emprestimos.Any()){
-        return Results.Ok(emprestimos);
-    }
-    return Results.NotFound("Não existem empréstimos cadastrados!");
+app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>
+{
+     var emprestimos = ctx.TabelaEmprestimos
+          .Include(e => e.Usuario) // Inclui informações do usuário
+          .Include(e => e.Livro) // Inclui informações do livro
+          .Where(e => e.Livro != null && e.Livro.Emprestado == true) // Filtra por livros emprestados
+          .ToList();
+
+     if (emprestimos.Any())
+     {
+          return Results.Ok(emprestimos); // Retorna empréstimos filtrados
+     }
+
+     return Results.NotFound("Não existem empréstimos com livros emprestados!"); // Informa que nenhum empréstimo foi encontrado
 });
+
 
 //CRUD Devolução
 
@@ -237,39 +242,52 @@ app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>{
 
 app.MapPost("/devolucao/registrar", ([FromBody] Devolucao devolucao, [FromServices] AppDbContext ctx) =>
 {
-   var emprestimo = ctx.TabelaEmprestimos.FirstOrDefault(e => e.EmprestimoId == devolucao.Emprestimo.EmprestimoId);
-if (emprestimo == null)
-    {
-        return Results.NotFound(); // Empréstimo não encontrado
-    }
+     var emprestimo = ctx.TabelaEmprestimos.FirstOrDefault(e => e.EmprestimoId == devolucao.EmprestimoId);
+     if (emprestimo == null)
+     {
+     return Results.NotFound(); // Empréstimo não encontrado
+     }
 
-    if (emprestimo.Livro == null || emprestimo.Usuario == null)
-    {
-        return Results.BadRequest("Empréstimo inválido."); // Empréstimo não possui livro ou usuário associado
-    }
+     if (emprestimo.LivroId == null || emprestimo.UsuarioId == null)
+     {
+     return Results.BadRequest("Empréstimo inválido."); // Empréstimo não possui livro ou usuário associado
+     }
 
-    var livro = emprestimo.Livro;
-    if (livro.Emprestado == false)
-    {
-        return Results.BadRequest("O livro já foi devolvido."); // Livro já foi devolvido
-    }
+     var livro = ctx.TabelaLivros.Find(emprestimo.LivroId);
+     if (livro != null)
+     {
+     if (livro.Emprestado == false)
+     {
+          return Results.BadRequest("O livro já foi devolvido.");
+     }
 
-    livro.Emprestado = false;
-    devolucao.DataDevolucao = DateTime.Now;
+     livro.Emprestado = false; // Atualize o status de empréstimo do livro
+     }
+     else
+     {
+     return Results.BadRequest("Livro não associado ao empréstimo."); // Livro não encontrado
+     }
+     emprestimo = null;
+     devolucao.DataDevolucao = DateTime.Now;
+     ctx.TabelaDevolucao.Add(devolucao);
+     ctx.SaveChanges(); // Salve as alterações no banco de dados
 
-    ctx.SaveChanges(); // Salva as mudanças no banco de dados
-
-    return Results.Ok("Livro devolvido com sucesso.");
+     return Results.Ok("Livro devolvido com sucesso.");
 });
 
-// Listar Devolução 
 
-app.MapGet("/devolucao/listar", ([FromServices] AppDbContext ctx) =>{
-    var devolucao = ctx.TabelaDevolucao.Include(d => d.Emprestimo).ThenInclude(e => e.Livro)
-          .Include(d => d.Emprestimo).ThenInclude(e => e.Usuario)
-          .ToList();
+//Listar Devolução 
 
-          return Results.Ok(devolucao);
+app.MapGet("devolucao/listar", ([FromServices] AppDbContext ctx)=>{
+     var devolucoes = ctx.TabelaDevolucao.ToList(); 
+     if (devolucoes.Any())
+     {
+          return Results.Ok(devolucoes);
+     }
+     return Results.NotFound("Não existem devoluções cadastradas!");
 });
+
+     
+
 
 app.Run();
