@@ -118,37 +118,38 @@ app.MapPost("/emprestimo/registrar", async ([FromBody] Emprestimo emprestimo, [F
 {
     try
     {
+          DateTime dataAtual = DateTime.Now;
+          Emprestimo emprestimoUsuarioBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.UsuarioId == emprestimo.UsuarioId);
+          if (emprestimoUsuarioBuscado != null)
+          {
+               return Results.BadRequest("Usuário já possui um empréstimo ativo.");
+          }
 
-        Emprestimo emprestimoUsuarioBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.UsuarioId == emprestimo.UsuarioId);
-        if (emprestimoUsuarioBuscado != null)
-        {
-            return Results.BadRequest("Usuário já possui um empréstimo ativo.");
-        }
+          Emprestimo emprestimoLivroBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.LivroId == emprestimo.LivroId);
+          if (emprestimoLivroBuscado != null)
+          {
+               return Results.BadRequest("Livro já está emprestado.");
+          }
 
-        Emprestimo emprestimoLivroBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.LivroId == emprestimo.LivroId);
-        if (emprestimoLivroBuscado != null)
-        {
-            return Results.BadRequest("Livro já está emprestado.");
-        }
+          Livro livroBuscado = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.LivroId && l.Emprestado == true);
+          if (livroBuscado != null)
+          {
+               return Results.BadRequest("Livro já está emprestado.");
+          }
 
-        Livro livroBuscado = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.LivroId && l.Emprestado == true);
-        if (livroBuscado != null)
-        {
-            return Results.BadRequest("Livro já está emprestado.");
-        }
+          emprestimo.EmprestimoId = Guid.NewGuid().ToString();
+          emprestimo.DataEmprestimo = dataAtual;
 
-        emprestimo.EmprestimoId = Guid.NewGuid().ToString();
+          ctx.TabelaEmprestimos.Add(emprestimo);
 
-        ctx.TabelaEmprestimos.Add(emprestimo);
+          await ctx.SaveChangesAsync();
 
-        await ctx.SaveChangesAsync();
-
-        return Results.Created("Emprestimo realizado!", emprestimo);
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem("Ocorreu um erro ao registrar o empréstimo. Por favor, tente novamente mais tarde.");
-    }
+          return Results.Created("Emprestimo realizado!", emprestimo);
+     }
+     catch (Exception ex)
+     {
+          return Results.Problem("Ocorreu um erro ao registrar o empréstimo. Por favor, tente novamente mais tarde.");
+     }
 });
 
 
