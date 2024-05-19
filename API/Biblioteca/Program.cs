@@ -190,4 +190,12 @@ if (emprestimo == null)
 
 // Listar Devolução 
 
+app.MapGet("/devolucao/listar", ([FromServices] AppDbContext ctx) =>{
+    var devolucao = ctx.TabelaDevolucao.Include(d => d.Emprestimo).ThenInclude(e => e.Livro)
+          .Include(d => d.Emprestimo).ThenInclude(e => e.Usuario)
+          .ToList();
+
+          return Results.Ok(devolucao);
+});
+
 app.Run();
