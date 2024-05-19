@@ -114,80 +114,44 @@ app.MapPost("/livro/{id}/comentar/", ([FromRoute] string id, [FromBody] Comentar
 // CRUD EMPRESTIMO
 
 // Registrar emprestimo
-// Middleware para registrar um empréstimo
 app.MapPost("/emprestimo/registrar", async ([FromBody] Emprestimo emprestimo, [FromServices] AppDbContext ctx) =>
 {
     try
     {
-        // Verifica se já existe um empréstimo para o usuário
+
         Emprestimo emprestimoUsuarioBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.UsuarioId == emprestimo.UsuarioId);
         if (emprestimoUsuarioBuscado != null)
         {
             return Results.BadRequest("Usuário já possui um empréstimo ativo.");
         }
 
-        // Verifica se já existe um empréstimo para o livro
         Emprestimo emprestimoLivroBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.LivroId == emprestimo.LivroId);
         if (emprestimoLivroBuscado != null)
         {
             return Results.BadRequest("Livro já está emprestado.");
         }
 
-        // Verifica se o livro está disponível para empréstimo
         Livro livroBuscado = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.LivroId && l.Emprestado == true);
         if (livroBuscado != null)
         {
             return Results.BadRequest("Livro já está emprestado.");
         }
 
-        // Define o EmprestimoId
         emprestimo.EmprestimoId = Guid.NewGuid().ToString();
 
-        // Adiciona o empréstimo ao contexto do banco de dados
         ctx.TabelaEmprestimos.Add(emprestimo);
 
-        // Salva as mudanças no banco de dados
         await ctx.SaveChangesAsync();
 
-        // Retorna uma resposta de sucesso com o objeto de empréstimo
         return Results.Created("Emprestimo realizado!", emprestimo);
     }
     catch (Exception ex)
     {
-        // Em caso de erro, retorna uma resposta de erro com uma mensagem amigável
         return Results.Problem("Ocorreu um erro ao registrar o empréstimo. Por favor, tente novamente mais tarde.");
     }
 });
 
-     //    // Verifica se o usuário existe no banco de dados
-     //    var usuario = await ctx.TabelaUsuarios.FindAsync(emprestimo.UsuarioId);
-     //    if (usuario == null)
-     //    {
-     //        return Results.NotFound("Usuário não encontrado");
-     //    }
 
-     //    // Verifica se o livro existe no banco de dados
-     //    var livro = await ctx.TabelaLivros.FindAsync(emprestimo.LivroId);
-     //    if (livro == null)
-     //    {
-     //        return Results.NotFound("Livro não encontrado");
-     //    }
-
-     //    // Verifica se o livro já está emprestado
-     //    var livroEmprestado = await ctx.TabelaEmprestimos.AnyAsync(e => e.LivroId == emprestimo.LivroId);
-     //    if (livroEmprestado)
-     //    {
-     //        return Results.BadRequest("Este livro já está emprestado!");
-     //    }
-
-     //    // Adiciona o empréstimo ao contexto do banco de dados
-     //    ctx.TabelaEmprestimos.Add(emprestimo);
-
-     //    // Salva as mudanças no banco de dados
-     //    await ctx.SaveChangesAsync();
-
-     //    // Retorna uma resposta de sucesso com o objeto de empréstimo
-     //    return Results.Created("Emprestimo realizado!", emprestimo);
 
 
 
