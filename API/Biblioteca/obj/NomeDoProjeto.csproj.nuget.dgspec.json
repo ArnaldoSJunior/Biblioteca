@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maria\\OneDrive\\Documentos\\GitHub\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj": {}
+    "C:\\Users\\Pichau\\Documents\\GitHub\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maria\\OneDrive\\Documentos\\GitHub\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj": {
+    "C:\\Users\\Pichau\\Documents\\GitHub\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maria\\OneDrive\\Documentos\\GitHub\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj",
+        "projectUniqueName": "C:\\Users\\Pichau\\Documents\\GitHub\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj",
         "projectName": "NomeDoProjeto",
-        "projectPath": "C:\\Users\\maria\\OneDrive\\Documentos\\GitHub\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj",
-        "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maria\\OneDrive\\Documentos\\GitHub\\Biblioteca\\API\\Biblioteca\\obj\\",
+        "projectPath": "C:\\Users\\Pichau\\Documents\\GitHub\\Biblioteca\\API\\Biblioteca\\NomeDoProjeto.csproj",
+        "packagesPath": "C:\\Users\\Pichau\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Pichau\\Documents\\GitHub\\Biblioteca\\API\\Biblioteca\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Pichau\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -77,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

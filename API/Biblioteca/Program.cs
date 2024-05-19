@@ -72,6 +72,32 @@ app.MapGet("/livro/listar/", ([FromServices] AppDbContext ctx) =>
      return Results.NotFound("Não existem livros cadastrados!");
 });
 
+// Buscar livro por título, autor ou categoria
+app.MapPost("/livro/buscar", ([FromBody] Livro livro, [FromServices] AppDbContext ctx) =>
+{
+     var query = ctx.TabelaLivros.AsQueryable();
+
+     if(!string.IsNullOrEmpty(livro.Titulo)){
+          query = query.Where(l => l.Titulo.Contains(livro.Titulo));
+     }
+     if(!string.IsNullOrEmpty(livro.Autor)){
+          query = query.Where(l => l.Autor.Contains(livro.Autor));
+     }
+     if(!string.IsNullOrEmpty(livro.Categoria)){
+          query = query.Where(l => l.Categoria.Contains(livro.Categoria));
+     }
+
+     var livrosFiltrados = query.ToList();
+
+     if(livrosFiltrados.Any()){
+          return Results.Ok(livrosFiltrados);
+     } else {
+          return Results.NotFound("Nenhum livro encontrado com os critério de busca fornecidos.");
+     }
+
+});
+
+
 // Deletar um livro por ID
 app.MapDelete("/livro/deletar/{id}", ([FromRoute] string id, [FromServices] AppDbContext ctx) =>
 {
