@@ -179,17 +179,17 @@ app.MapPost("/emprestimo/registrar/{emprestado}", async ([FromRoute]  bool empre
     try
     {
           DateTime dataAtual = DateTime.Now;
-          Emprestimo emprestimoUsuarioBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.UsuarioId == emprestimo.UsuarioId);
-          if (emprestimoUsuarioBuscado != null)
-          {
-               return Results.BadRequest("Usuário já possui um empréstimo ativo.");
-          }
+          // Emprestimo emprestimoUsuarioBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.UsuarioId == emprestimo.UsuarioId);
+          // if (emprestimoUsuarioBuscado != null)
+          // {
+          //      return Results.BadRequest("Usuário já possui um empréstimo ativo.");
+          // }
 
-          Emprestimo emprestimoLivroBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.LivroId == emprestimo.LivroId);
-          if (emprestimoLivroBuscado != null)
-          {
-               return Results.BadRequest("Livro já está emprestado.");
-          }
+          // Emprestimo emprestimoLivroBuscado = ctx.TabelaEmprestimos.FirstOrDefault(e => e.LivroId == emprestimo.LivroId);
+          // if (emprestimoLivroBuscado != null)
+          // {
+          //      return Results.BadRequest("Livro já está emprestado.");
+          // }
 
           Livro livroBuscado = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.LivroId && l.Emprestado == true);
           if (livroBuscado != null)
@@ -213,9 +213,6 @@ app.MapPost("/emprestimo/registrar/{emprestado}", async ([FromRoute]  bool empre
           return Results.Problem("Ocorreu um erro ao registrar o empréstimo. Por favor, tente novamente mais tarde.");
      }
 });
-
-
-
 
 
 // Listar emprestimos
