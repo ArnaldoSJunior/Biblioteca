@@ -62,15 +62,22 @@ app.MapPost("/livro/cadastrar/", ([FromBody] Livro livro, [FromServices] AppDbCo
 });
 
 // Listar todos os livros
-app.MapGet("/livro/listar/", ([FromServices] AppDbContext ctx) =>
+app.MapGet("/livro/listar/", async ([FromServices] AppDbContext ctx) =>
 {
-     var livros = ctx.TabelaLivros.ToList();
-     if (livros.Any())
-     {
-          return Results.Ok(livros);
-     }
-     return Results.NotFound("Não existem livros cadastrados!");
+    // Use Include para carregar entidades Avaliacao
+    var livrosComAvaliacoes = await ctx.TabelaLivros
+        .Include(l => l.Avaliacoes)
+        .Include(l => l.Comentarios)
+        .ToListAsync();
+
+    if (livrosComAvaliacoes.Any())
+    {
+        return Results.Ok(livrosComAvaliacoes);
+    }
+
+    return Results.NotFound("Não existem livros cadastrados!");
 });
+
 
 // Buscar livro por título, autor ou categoria
 app.MapPost("/livro/buscar", ([FromBody] Livro livro, [FromServices] AppDbContext ctx) =>
@@ -131,27 +138,35 @@ app.MapPut("/livro/alterar/{id}", ([FromRoute] string id,
 });
 
 //Avaliar um livro
-app.MapPost("/livro/{id}/avaliar/", ([FromRoute] string id, [FromBody] Avaliacao avaliacao, [FromServices] AppDbContext ctx) =>
+app.MapPost("/livro/{id}/avaliar/", async ([FromRoute] string id, [FromBody] Avaliacao avaliacao, [FromServices] AppDbContext ctx) =>
 {
-     Livro livro = ctx.TabelaLivros.Include(l => l.Avaliacoes).FirstOrDefault(x => x.LivroId == id);
-     if (livro != null)
-     {
-          livro.Avaliacoes.Add(avaliacao);
-          ctx.SaveChanges();
-          return Results.Created("Avaliação adicionada com sucesso!!", livro);
-     }
-     return Results.NotFound("Livro não encontrado");
+    // Use Include para carregar entidades Avaliacao
+    var livroBuscado = await ctx.TabelaLivros
+        .Include(l => l.Avaliacoes)
+        .FirstOrDefaultAsync(l => l.LivroId == id);
+
+    if (livroBuscado != null)
+    {
+        livroBuscado.Avaliacoes.Add(avaliacao);
+        await ctx.SaveChangesAsync();
+        return Results.Ok("Avaliação adicionada com sucesso!!");
+    }
+
+    return Results.NotFound("Livro não encontrado");
 });
 
+
 // Comentar um livro
-app.MapPost("/livro/{id}/comentar/", ([FromRoute] string id, [FromBody] Comentario comentario, [FromServices] AppDbContext ctx) =>
+app.MapPost("/livro/{id}/comentar/",  async([FromRoute] string id, [FromBody] Comentario comentario, [FromServices] AppDbContext ctx) =>
 {
-     Livro livro = ctx.TabelaLivros.Include(l => l.Comentarios).FirstOrDefault(x => x.LivroId == id);
-     if (livro != null)
+     var livroBuscado = await ctx.TabelaLivros
+          .Include(l =>l.Comentarios)
+          .FirstOrDefaultAsync(l =>l.LivroId == id);
+     if (livroBuscado != null)
      {
-          livro.Comentarios.Add(comentario);
+          livroBuscado.Comentarios.Add(comentario);
           ctx.SaveChanges();
-          return Results.Created("Comentário adicionado com sucesso!!", livro);
+          return Results.Ok("Comentário adicionado com sucesso!!");
      }
      return Results.NotFound("Livro não encontrado");
 });

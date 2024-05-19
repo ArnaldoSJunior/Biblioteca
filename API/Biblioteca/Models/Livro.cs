@@ -9,7 +9,7 @@ public class Livro{
     public string LivroId { get; set; }
     public bool Emprestado { get; set; }
 
-    public List<Avaliacao> Avaliacoes { get; set; }
+    public  ICollection<Avaliacao> Avaliacoes { get; } = new List<Avaliacao>();
     public List<Comentario> Comentarios { get; set; }
 
     public Livro(string titulo, string autor, string editora, string categoria){

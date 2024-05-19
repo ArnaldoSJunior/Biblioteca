@@ -53,7 +53,7 @@ Content-Type: application/json
 }
 
 ### Avaliar um livro
-POST http://localhost:5162/livro/5310e63a-874f-4f7d-b832-9cc2617d6de3/avaliar/ HTTP/1.1
+POST http://localhost:5162/livro/30200912-0cf1-43c3-9677-577e1167b25e/avaliar/ HTTP/1.1
 Content-Type: application/json
 
 {
@@ -63,7 +63,7 @@ Content-Type: application/json
 
 
 ### Comentar um livro
-POST http://localhost:5162/livro/5310e63a-874f-4f7d-b832-9cc2617d6de3/comentar/ HTTP/1.1
+POST http://localhost:5162/livro/30200912-0cf1-43c3-9677-577e1167b25e/comentar/ HTTP/1.1
 Content-Type: application/json
 
 {
@@ -77,7 +77,7 @@ Content-Type: application/json
 
 {
     "usuarioId": "5d36b7cb-3dac-423a-913b-123df5e3f75c",
-    "livroId": "b1c0c374-7b97-465e-9365-59dd8131aee0"
+    "livroId": "30200912-0cf1-43c3-9677-577e1167b25e"
 }
 
 

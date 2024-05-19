@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace NomeDoProjeto.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240519115410_attAvaliação06")]
+    partial class attAvaliação06
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
@@ -142,7 +145,6 @@ namespace NomeDoProjeto.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LivroId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Texto")
@@ -162,11 +164,13 @@ namespace NomeDoProjeto.Migrations
 
             modelBuilder.Entity("API.Biblioteca.Models.Avaliacao", b =>
                 {
-                    b.HasOne("API.Biblioteca.Models.Livro", null)
+                    b.HasOne("API.Biblioteca.Models.Livro", "livro")
                         .WithMany("Avaliacoes")
                         .HasForeignKey("LivroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("livro");
                 });
 
             modelBuilder.Entity("API.Biblioteca.Models.Devolucao", b =>
@@ -203,9 +207,7 @@ namespace NomeDoProjeto.Migrations
                 {
                     b.HasOne("API.Biblioteca.Models.Livro", null)
                         .WithMany("Comentarios")
-                        .HasForeignKey("LivroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LivroId");
                 });
 
             modelBuilder.Entity("API.Biblioteca.Models.Livro", b =>
