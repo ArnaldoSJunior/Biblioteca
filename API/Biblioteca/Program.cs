@@ -114,7 +114,7 @@ app.MapPost("/livro/{id}/comentar/", ([FromRoute] string id, [FromBody] Comentar
 // CRUD EMPRESTIMO
 
 // Registrar emprestimo
-app.MapPost("/emprestimo/registrar", async ([FromBody] Emprestimo emprestimo, [FromServices] AppDbContext ctx) =>
+app.MapPost("/emprestimo/registrar/{emprestado}", async ([FromRoute]  bool emprestado, [FromBody] Emprestimo emprestimo,[FromServices] AppDbContext ctx) =>
 {
     try
     {
@@ -136,7 +136,9 @@ app.MapPost("/emprestimo/registrar", async ([FromBody] Emprestimo emprestimo, [F
           {
                return Results.BadRequest("Livro já está emprestado.");
           }
-
+          var liv = ctx.TabelaLivros.Find(emprestimo.LivroId);
+          liv.Emprestado = true;
+          
           emprestimo.EmprestimoId = Guid.NewGuid().ToString();
           emprestimo.DataEmprestimo = dataAtual;
 
