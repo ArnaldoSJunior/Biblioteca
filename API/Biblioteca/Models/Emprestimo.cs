@@ -2,15 +2,19 @@ namespace API.Biblioteca.Models;
 public class Emprestimo{
 
     public string EmprestimoId { get; set; }
+    public string UsuarioId { get; set; }
     public Usuario Usuario { get; set; }
+    public string LivroId { get; set; }
     public Livro Livro { get; set; }
     public DateTime? DataEmprestimo { get; set; }
+    public Emprestimo()
+    {
+    }
 
-    public Emprestimo() { } 
-    public Emprestimo(Usuario usuario, Livro livro, DateTime dataEmprestimo){
+    public Emprestimo(string usuarioId, string livroId)
+    {
         EmprestimoId = Guid.NewGuid().ToString();
-        Usuario = usuario;
-        Livro = livro;
-        DataEmprestimo = dataEmprestimo;
+        UsuarioId = usuarioId;
+        LivroId = livroId;
     }
 }
