@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-
+   
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>();
+
+builder.Services.AddCors(
+    options => options.AddPolicy("Acesso Total", configs => configs.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod())
+);
 var app = builder.Build();
 
 app.MapGet("/", () => "API de Biblioteca");
@@ -274,6 +278,5 @@ app.MapGet("devolucao/listar", ([FromServices] AppDbContext ctx)=>{
 });
 
      
-
-
+app.UseCors("Acesso Total");
 app.Run();
