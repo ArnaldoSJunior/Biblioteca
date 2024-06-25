@@ -15,7 +15,6 @@ function CadastrarLivro() {
             autor: autor,
             editora: editora,
             categoria: categoria,
-
         };
 
         fetch("http://localhost:5162/livro/cadastrar/", {

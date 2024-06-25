@@ -4,6 +4,7 @@ import ProdutoCadastar from "./components/pages/cadastro/livro-cadastrar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import CadastrarLivro from './components/pages/cadastro/livro-cadastrar';
+import Logar from './components/pages/cadastro/cadastar-usuario';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
       </nav>
       <Routes>
           <Route path="/pages/cadastro" element={<CadastrarLivro/>}/>
+          <Route path="/pages/login" element={<Logar/>}/> 
         </Routes>
       <footer>
           <p>Desenvolvido por Miguel Viapiana Jung</p>
