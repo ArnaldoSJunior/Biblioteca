@@ -17,7 +17,7 @@ const usuario: Usuario = {
 
 };
 
-fetch("http://localhost:3000/usuario/cadastrar/", {
+fetch("http://localhost:5162/usuario/cadastrar/", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
