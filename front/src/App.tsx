@@ -4,7 +4,7 @@ import ProdutoCadastar from "./components/pages/cadastro/livro-cadastrar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import CadastrarLivro from './components/pages/cadastro/livro-cadastrar';
-import Logar from './components/pages/cadastro/cadastar-usuario';
+import Logar from './components/pages/cadastro/cadastrar-usuario';
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
           <Link to={"/"}>Home</Link>
           </li>
           <li>
-            <Link to={"/pages/login"} >Login</Link>
+            <Link to={"/pages/cadastro/cadastrar-usuario"} >Novo usuario</Link>
           </li>
           <li>
           <Link to={"/pages/cadastro"}>Cadastrar Livro</Link>
