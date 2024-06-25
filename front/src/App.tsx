@@ -4,7 +4,6 @@ import ProdutoCadastar from "./components/pages/cadastro/livro-cadastrar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import CadastrarLivro from './components/pages/cadastro/livro-cadastrar';
-import Logar from './components/pages/cadastro/cadastar-usuario';
 
 
 function App() {
