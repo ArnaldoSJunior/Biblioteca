@@ -17,7 +17,7 @@ function App() {
           <Link to={"/"}>Home</Link>
           </li>
           <li>
-            <Link to={"/pages/cadastro/cadastrar-usuario"} >Novo usuario</Link>
+            <Link to={"/pages/login"} >Novo usuario</Link>
           </li>
           <li>
           <Link to={"/pages/cadastro"}>Cadastrar Livro</Link>

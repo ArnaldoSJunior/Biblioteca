@@ -17,7 +17,7 @@ function CadastrarLivro() {
             categoria: categoria,
         };
 
-        fetch("http://localhost:5162/livro/cadastrar/", {
+        fetch("http://localhost:3000/livro/cadastrar/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
