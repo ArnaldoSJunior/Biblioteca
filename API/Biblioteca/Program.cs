@@ -292,13 +292,14 @@ app.MapGet("devolucao/listar", ([FromServices] AppDbContext ctx) =>
 app.MapPost("usuario/login", ([FromServices] AppDbContext ctx, [FromBody] Usuario usuario) =>
 {
      Usuario usuarioExiste = ctx.TabelaUsuarios.FirstOrDefault(e => e.Email == usuario.Email && e.Senha == usuario.Senha);
+     Permissao permissao = usuarioExiste.Permissao;
      if (usuarioExiste != null)
      {
-          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!" });
+          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!", Permissao = permissao });
      }
      else
      {
-          return Results.NotFound(new LoginResponse { Success = false, Message = "Usuário ou senha incorretos." });
+          return Results.NotFound(new LoginResponse { Success = false, Message = "Usuário ou senha incorretos.", Permissao = permissao });
      }
 });
 

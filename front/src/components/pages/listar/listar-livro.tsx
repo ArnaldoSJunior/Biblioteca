@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Livro } from "../../../models/Livro";
+import { AuthContext } from "../login/AuthContext";
 
 function ListarLivro() {
     const [livros, setLivros] = useState<Livro[]>([]);
+    const authContext = useContext(AuthContext);
 
     useEffect(() => {
         console.log("Carregou lista de Livros");
@@ -23,6 +25,7 @@ function ListarLivro() {
 
     return (
         <div>
+            <h1>Permissao {authContext?.permissao}</h1>
             <h1>Listagem de Livros</h1>
             <table border={5}>
                 <thead>
