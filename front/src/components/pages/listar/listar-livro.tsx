@@ -27,6 +27,7 @@ function ListarLivro() {
             <table border={5}>
                 <thead>
                     <tr>
+                        <th>Título</th>
                         <th>Autor</th>
                         <th>Editora</th>
                         <th>Categoria</th>
@@ -34,12 +35,13 @@ function ListarLivro() {
                     </tr>
                 </thead>
                 <tbody>
-                    {livros.map((livros)=>(
+                    {livros.map((livros) => (
                         <tr key={livros.livroId}>
+                            <td>{livros.titulo}</td>
                             <td>{livros.autor}</td>
                             <td>{livros.editora}</td>
                             <td>{livros.categoria}</td>
-                            <td>{livros.emprestado}</td>
+                            <td>{livros.emprestado ? 'Emprestado' : "Disponível"}</td>
                         </tr>
                     ))}
                 </tbody>
