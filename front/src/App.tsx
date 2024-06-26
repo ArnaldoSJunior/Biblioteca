@@ -10,7 +10,6 @@ import Logar from './components/pages/login/login-usuario';
 import ListarUsuarios from './components/pages/listar/listar-usuarios';
 import { AuthContext } from './components/pages/login/AuthContext';
 
-
 function App() {
 
   const authContext = useContext(AuthContext);
@@ -60,5 +59,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
