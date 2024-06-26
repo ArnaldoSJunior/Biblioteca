@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-   
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>();
 
@@ -18,32 +18,35 @@ var app = builder.Build();
 
 app.MapGet("/", () => "API de Biblioteca");
 
- 
+
 //CRUD USUARIO
 
 app.MapPost("/usuario/cadastrar/", ([FromBody] Usuario usuario, [FromServices] AppDbContext ctx) =>
 {
-     Usuario? usuarioBuscado = ctx.TabelaUsuarios.FirstOrDefault(x =>x.Nome == usuario.Nome);
-     if(usuarioBuscado is null){
-         ctx.TabelaUsuarios.Add(usuario);
-         ctx.SaveChanges();
-         return Results.Created("Cadastro realizado!!", usuario);
-    }
-   return Results.BadRequest("Já existe um usuário igual!!");
+     Usuario? usuarioBuscado = ctx.TabelaUsuarios.FirstOrDefault(x => x.Nome == usuario.Nome);
+     if (usuarioBuscado is null)
+     {
+          ctx.TabelaUsuarios.Add(usuario);
+          ctx.SaveChanges();
+          return Results.Created("Cadastro realizado!!", usuario);
+     }
+     return Results.BadRequest("Já existe um usuário igual!!");
 });
 
-app.MapGet("/usuario/listar/", ([FromServices] AppDbContext ctx)=>
+app.MapGet("/usuario/listar/", ([FromServices] AppDbContext ctx) =>
 {
-     if(ctx.TabelaUsuarios.Any()){
+     if (ctx.TabelaUsuarios.Any())
+     {
           return Results.Ok(ctx.TabelaUsuarios.ToList());
      }
      return Results.NotFound("Não existe usuários cadastrados!");
 });
 
-app.MapDelete("/usuario/deletar/{id}", ([FromRoute] string id, [FromServices] AppDbContext ctx)=>
+app.MapDelete("/usuario/deletar/{id}", ([FromRoute] string id, [FromServices] AppDbContext ctx) =>
 {
-     Usuario usuario = ctx.TabelaUsuarios.FirstOrDefault(x =>x.UsuarioId == id);
-     if(usuario is null){
+     Usuario usuario = ctx.TabelaUsuarios.FirstOrDefault(x => x.UsuarioId == id);
+     if (usuario is null)
+     {
           return Results.NotFound("Usuário não encontrado");
      }
      ctx.TabelaUsuarios.Remove(usuario);
@@ -68,18 +71,18 @@ app.MapPost("/livro/cadastrar/", ([FromBody] Livro livro, [FromServices] AppDbCo
 // Listar todos os livros
 app.MapGet("/livro/listar/", async ([FromServices] AppDbContext ctx) =>
 {
-    // Use Include para carregar entidades Avaliacao
-    var livrosComAvaliacoes = await ctx.TabelaLivros
-        .Include(l => l.Avaliacoes)
-        .Include(l => l.Comentarios)
-        .ToListAsync();
+     // Use Include para carregar entidades Avaliacao
+     var livrosComAvaliacoes = await ctx.TabelaLivros
+         .Include(l => l.Avaliacoes)
+         .Include(l => l.Comentarios)
+         .ToListAsync();
 
-    if (livrosComAvaliacoes.Any())
-    {
-        return Results.Ok(livrosComAvaliacoes);
-    }
+     if (livrosComAvaliacoes.Any())
+     {
+          return Results.Ok(livrosComAvaliacoes);
+     }
 
-    return Results.NotFound("Não existem livros cadastrados!");
+     return Results.NotFound("Não existem livros cadastrados!");
 });
 
 
@@ -88,21 +91,27 @@ app.MapPost("/livro/buscar", ([FromBody] Livro livro, [FromServices] AppDbContex
 {
      var query = ctx.TabelaLivros.AsQueryable();
 
-     if(!string.IsNullOrEmpty(livro.Titulo)){
+     if (!string.IsNullOrEmpty(livro.Titulo))
+     {
           query = query.Where(l => l.Titulo.Contains(livro.Titulo));
      }
-     if(!string.IsNullOrEmpty(livro.Autor)){
+     if (!string.IsNullOrEmpty(livro.Autor))
+     {
           query = query.Where(l => l.Autor.Contains(livro.Autor));
      }
-     if(!string.IsNullOrEmpty(livro.Categoria)){
+     if (!string.IsNullOrEmpty(livro.Categoria))
+     {
           query = query.Where(l => l.Categoria.Contains(livro.Categoria));
      }
 
      var livrosFiltrados = query.ToList();
 
-     if(livrosFiltrados.Any()){
+     if (livrosFiltrados.Any())
+     {
           return Results.Ok(livrosFiltrados);
-     } else {
+     }
+     else
+     {
           return Results.NotFound("Nenhum livro encontrado com os critério de busca fornecidos.");
      }
 
@@ -127,45 +136,45 @@ app.MapPut("/livro/alterar/{id}", ([FromRoute] string id,
     [FromBody] Livro livroAlterado,
     [FromServices] AppDbContext ctx) =>
 {
-    Livro? livro = ctx.TabelaLivros.Find(id);
-    if (livro is null)
-    {
-        return Results.NotFound("Produto não encontrado!");
-    }
-    livro.Titulo = livroAlterado.Titulo;
-    livro.Categoria = livroAlterado.Categoria;
-    livro.Autor = livroAlterado.Autor;
-    ctx.TabelaLivros.Update(livro);
-    ctx.SaveChanges();
-    return Results.Ok("Livro alterado!");
+     Livro? livro = ctx.TabelaLivros.Find(id);
+     if (livro is null)
+     {
+          return Results.NotFound("Produto não encontrado!");
+     }
+     livro.Titulo = livroAlterado.Titulo;
+     livro.Categoria = livroAlterado.Categoria;
+     livro.Autor = livroAlterado.Autor;
+     ctx.TabelaLivros.Update(livro);
+     ctx.SaveChanges();
+     return Results.Ok("Livro alterado!");
 
 });
 
 //Avaliar um livro
 app.MapPost("/livro/{id}/avaliar/", async ([FromRoute] string id, [FromBody] Avaliacao avaliacao, [FromServices] AppDbContext ctx) =>
 {
-    // Use Include para carregar entidades Avaliacao
-    var livroBuscado = await ctx.TabelaLivros
-        .Include(l => l.Avaliacoes)
-        .FirstOrDefaultAsync(l => l.LivroId == id);
+     // Use Include para carregar entidades Avaliacao
+     var livroBuscado = await ctx.TabelaLivros
+         .Include(l => l.Avaliacoes)
+         .FirstOrDefaultAsync(l => l.LivroId == id);
 
-    if (livroBuscado != null)
-    {
-        livroBuscado.Avaliacoes.Add(avaliacao);
-        await ctx.SaveChangesAsync();
-        return Results.Ok("Avaliação adicionada com sucesso!!");
-    }
+     if (livroBuscado != null)
+     {
+          livroBuscado.Avaliacoes.Add(avaliacao);
+          await ctx.SaveChangesAsync();
+          return Results.Ok("Avaliação adicionada com sucesso!!");
+     }
 
-    return Results.NotFound("Livro não encontrado");
+     return Results.NotFound("Livro não encontrado");
 });
 
 
 // Comentar um livro
-app.MapPost("/livro/{id}/comentar/",  async([FromRoute] string id, [FromBody] Comentario comentario, [FromServices] AppDbContext ctx) =>
+app.MapPost("/livro/{id}/comentar/", async ([FromRoute] string id, [FromBody] Comentario comentario, [FromServices] AppDbContext ctx) =>
 {
      var livroBuscado = await ctx.TabelaLivros
-          .Include(l =>l.Comentarios)
-          .FirstOrDefaultAsync(l =>l.LivroId == id);
+          .Include(l => l.Comentarios)
+          .FirstOrDefaultAsync(l => l.LivroId == id);
      if (livroBuscado != null)
      {
           livroBuscado.Comentarios.Add(comentario);
@@ -178,10 +187,10 @@ app.MapPost("/livro/{id}/comentar/",  async([FromRoute] string id, [FromBody] Co
 // CRUD EMPRESTIMO
 
 // Registrar emprestimo
-app.MapPost("/emprestimo/registrar/{emprestado}", async ([FromRoute]  bool emprestado, [FromBody] Emprestimo emprestimo,[FromServices] AppDbContext ctx) =>
+app.MapPost("/emprestimo/registrar/{emprestado}", async ([FromRoute] bool emprestado, [FromBody] Emprestimo emprestimo, [FromServices] AppDbContext ctx) =>
 {
-    try
-    {
+     try
+     {
           DateTime dataAtual = DateTime.Now;
 
           Livro livroBuscado = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.LivroId && l.Emprestado == true);
@@ -191,7 +200,7 @@ app.MapPost("/emprestimo/registrar/{emprestado}", async ([FromRoute]  bool empre
           }
           var liv = ctx.TabelaLivros.Find(emprestimo.LivroId);
           liv.Emprestado = true;
-          
+
           emprestimo.EmprestimoId = Guid.NewGuid().ToString();
           emprestimo.DataEmprestimo = dataAtual;
 
@@ -235,27 +244,27 @@ app.MapPost("/devolucao/registrar", ([FromBody] Devolucao devolucao, [FromServic
      var emprestimo = ctx.TabelaEmprestimos.FirstOrDefault(e => e.EmprestimoId == devolucao.EmprestimoId);
      if (emprestimo == null)
      {
-     return Results.NotFound(); // Empréstimo não encontrado
+          return Results.NotFound(); // Empréstimo não encontrado
      }
 
      if (emprestimo.LivroId == null || emprestimo.UsuarioId == null)
      {
-     return Results.BadRequest("Empréstimo inválido."); // Empréstimo não possui livro ou usuário associado
+          return Results.BadRequest("Empréstimo inválido."); // Empréstimo não possui livro ou usuário associado
      }
 
      var livro = ctx.TabelaLivros.Find(emprestimo.LivroId);
      if (livro != null)
      {
-     if (livro.Emprestado == false)
-     {
-          return Results.BadRequest("O livro já foi devolvido.");
-     }
+          if (livro.Emprestado == false)
+          {
+               return Results.BadRequest("O livro já foi devolvido.");
+          }
 
-     livro.Emprestado = false; // Atualize o status de empréstimo do livro
+          livro.Emprestado = false; // Atualize o status de empréstimo do livro
      }
      else
      {
-     return Results.BadRequest("Livro não associado ao empréstimo."); // Livro não encontrado
+          return Results.BadRequest("Livro não associado ao empréstimo."); // Livro não encontrado
      }
      emprestimo = null;
      devolucao.DataDevolucao = DateTime.Now;
@@ -268,8 +277,9 @@ app.MapPost("/devolucao/registrar", ([FromBody] Devolucao devolucao, [FromServic
 
 //Listar Devolução 
 
-app.MapGet("devolucao/listar", ([FromServices] AppDbContext ctx)=>{
-     var devolucoes = ctx.TabelaDevolucao.ToList(); 
+app.MapGet("devolucao/listar", ([FromServices] AppDbContext ctx) =>
+{
+     var devolucoes = ctx.TabelaDevolucao.ToList();
      if (devolucoes.Any())
      {
           return Results.Ok(devolucoes);
@@ -277,6 +287,25 @@ app.MapGet("devolucao/listar", ([FromServices] AppDbContext ctx)=>{
      return Results.NotFound("Não existem devoluções cadastradas!");
 });
 
-     
+//Realizar Login
+
+app.MapPost("usuario/login", ([FromServices] AppDbContext ctx, [FromBody] Usuario usuario) =>
+{
+     Usuario usuarioExiste = ctx.TabelaUsuarios.FirstOrDefault(e => e.Email == usuario.Email && e.Senha == usuario.Senha);
+     if (usuarioExiste != null)
+     {
+          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!" });
+     }
+     else
+     {
+          return Results.NotFound(new LoginResponse { Success = false, Message = "Usuário ou senha incorretos." });
+     }
+});
+
+
+
+
+
+
 app.UseCors("Acesso Total");
 app.Run();
