@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Usuario } from "../../../models/Usuario";
 import { error } from "console";
 
-function listarUsuarios(){
+function ListarUsuarios(){
 const[usuarios, setUsuarios] = useState<Usuario[]>([]);
 
 useEffect(() => {
@@ -40,7 +40,7 @@ return(
                         <td> {Usuarios.nome}</td>
                         <td> {Usuarios.email}</td>
                         <td> {Usuarios.senha}</td>
-                        <td> {Usuarios.permissao ? '0' : '1'}</td>
+                        <td> {Usuarios.permissao ? '1' : '0'}</td>
                     </tr>
                 ))}
             </tbody>
@@ -49,4 +49,7 @@ return(
 )
 
 
+
 }
+
+export default ListarUsuarios;

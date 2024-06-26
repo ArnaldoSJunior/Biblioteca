@@ -7,6 +7,7 @@ import CadastrarLivro from './components/pages/cadastro/livro-cadastrar';
 import ListarLivro from './components/pages/listar/listar-livro';
 import CadastarUsuario from './components/pages/cadastro/cadastrar-usuario';
 import Logar from './components/pages/login/login-usuario';
+import ListarUsuarios from './components/pages/listar/listar-usuarios';
 
 
 function App() {
@@ -30,13 +31,16 @@ function App() {
           <li>
           <Link to={"/pages/listar"}>Listar Livros</Link>
           </li>
-          
+          <li>
+          <Link to={"/pages/listar-usuario"}>Listar Usuarios</Link>
+          </li>
         </ul>
       </nav>
       <Routes>
           <Route path="/pages/cadastro-livro" element={<CadastrarLivro/>}/>
           <Route path="/pages/cadastro-usuario" element={<CadastarUsuario/>}/> 
           <Route path='/pages/listar' element={<ListarLivro/>}/>
+          <Route path='/pages/listar-usuario' element={<ListarUsuarios/>}/>
           <Route path='/pages/login' element={<Logar/>}/>
         </Routes>
       <footer>
