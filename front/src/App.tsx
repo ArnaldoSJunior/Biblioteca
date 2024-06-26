@@ -4,8 +4,8 @@ import ProdutoCadastar from "./components/pages/cadastro/livro-cadastrar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import CadastrarLivro from './components/pages/cadastro/livro-cadastrar';
-import Logar from './components/pages/cadastro/cadastrar-usuario';
 import ListarLivro from './components/pages/listar/listar-livro';
+import CadastarUsuario from './components/pages/cadastro/cadastrar-usuario';
 
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
       </nav>
       <Routes>
           <Route path="/pages/cadastro" element={<CadastrarLivro/>}/>
-          <Route path="/pages/login" element={<Logar/>}/> 
+          <Route path="/pages/login" element={<CadastarUsuario/>}/> 
           <Route path='/pages/listar' element={<ListarLivro/>}/>
         </Routes>
       <footer>

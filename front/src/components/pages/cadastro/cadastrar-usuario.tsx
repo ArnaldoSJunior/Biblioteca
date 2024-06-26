@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Usuario } from '../../../models/Usuario';
  
-function Logar(){
+function CadastarUsuario(){
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
@@ -55,4 +55,4 @@ return(
 
 
 }
-export default Logar;
+export default CadastarUsuario;
