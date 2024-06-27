@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Livro } from "../../../models/Livro";
 import { AuthContext } from "../login/AuthContext";
+import Button from 'react-bootstrap/Button';
 
 function ListarLivro() {
     const [livros, setLivros] = useState<Livro[]>([]);
@@ -24,8 +25,8 @@ function ListarLivro() {
     }
 
     return (
+        
         <div>
-            <h1>Permissao {authContext?.permissao}</h1>
             <h1>Listagem de Livros</h1>
             <table border={5}>
                 <thead>
