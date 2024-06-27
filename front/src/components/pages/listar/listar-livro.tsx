@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Livro } from "../../../models/Livro";
 import { AuthContext } from "../login/AuthContext";
 import Button from 'react-bootstrap/Button';
+import "../../../styles/listagem.css";
 
 function ListarLivro() {
     const [livros, setLivros] = useState<Livro[]>([]);
@@ -26,9 +27,9 @@ function ListarLivro() {
 
     return (
         
-        <div>
+        <div className="listagem-container">
             <h1>Listagem de Livros</h1>
-            <table border={5}>
+            <table className="listagem-tabela">
                 <thead>
                     <tr>
                         <th>Título</th>

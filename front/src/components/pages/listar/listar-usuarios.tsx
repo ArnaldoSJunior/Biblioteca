@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Usuario } from "../../../models/Usuario";
 import { error } from "console";
+import "../../../styles/listagem.css";
 
 function ListarUsuarios(){
 const[usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -23,9 +24,9 @@ function listagemUsuarios()
     }
 
 return(
-    <div>
+    <div className="listagem-container">
         <h1>Lista de usuários cadastrados</h1>
-        <table border={4}>
+        <table className="listagem-tabela">
             <thead>
                 <tr>
                     <th>Nome</th>
