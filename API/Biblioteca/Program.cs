@@ -187,13 +187,13 @@ app.MapPost("/livro/{id}/comentar/", async ([FromRoute] string id, [FromBody] Co
 // CRUD EMPRESTIMO
 
 // Registrar emprestimo
-app.MapPost("/emprestimo/registrar/{emprestado}", async ([FromRoute] bool emprestado, [FromBody] Emprestimo emprestimo, [FromServices] AppDbContext ctx) =>
+app.MapPost("/emprestimo/registrar/{emprestado}/{id}", async ([FromRoute] bool emprestado, [FromRoute] string id, [FromBody] Emprestimo emprestimo, [FromServices] AppDbContext ctx) =>
 {
      try
      {
           DateTime dataAtual = DateTime.Now;
 
-          Livro livroBuscado = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == emprestimo.LivroId && l.Emprestado == true);
+          Livro livroBuscado = ctx.TabelaLivros.FirstOrDefault(l => l.LivroId == id && l.Emprestado == true);
           if (livroBuscado != null)
           {
                return Results.BadRequest("Livro já está emprestado.");
@@ -296,7 +296,8 @@ app.MapPost("usuario/login", ([FromServices] AppDbContext ctx, [FromBody] Usuari
      if (usuarioExiste != null)
      {
           var usu = usuarioExiste.Email;
-          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!", Permissao = permissao,  Usuario = usu});
+          var usuId = usuarioExiste.UsuarioId;
+          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!", Permissao = permissao,  Usuario = usu, UsuarioId = usuId});
      }
      else
      {

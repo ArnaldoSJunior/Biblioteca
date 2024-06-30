@@ -6,4 +6,5 @@ public class LoginResponse
     public Permissao Permissao { get; set; }
 
     public string Usuario {get; set; }
+    public string UsuarioId {get; set;}
 }
