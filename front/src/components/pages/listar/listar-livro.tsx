@@ -63,9 +63,9 @@ function ListarLivro() {
                         <th>Editora</th>
                         <th>Categoria</th>
                         <th>Situação do empréstimo</th>
-                        <th>Deletar</th>
                         <th>Comentarios</th>
                         <th>Avaliações</th>
+                        {permissao == 1 && <th>Deletar</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -76,9 +76,7 @@ function ListarLivro() {
                             <td>{livro.editora}</td>
                             <td>{livro.categoria}</td>
                             <td>{livro.emprestado ? 'Emprestado' : 'Disponível'}</td>
-                            <td>
-                                <button onClick={() => deletar(livro.livroId!)} id="botao">Deletar</button>
-                            </td>
+
                             <td>
                                 {permissao == 0 && <button onClick={() => navigate(`/livro/${livro.livroId}/comentar`)} id="botao">Comentar</button>}
                                 <button onClick={() => navigate(`/listar/comentario/${livro.livroId}`)} id="botao">Listar</button>
@@ -86,6 +84,9 @@ function ListarLivro() {
                             <td>
                                 {permissao == 0 && <button onClick={() => navigate(`/livro/${livro.livroId}/avaliar`)} id="botao">Avaliar</button>}
                                 <button onClick={() => navigate(`/listar/avaliar/${livro.livroId}`)} id="botao">Listar</button>
+                            </td>
+                            <td>
+                                {permissao == 1 && <button onClick={() => deletar(livro.livroId!)} id="botao">Deletar</button>}
                             </td>
                         </tr>
                     ))}
