@@ -28,7 +28,7 @@ const livroComentar = () => {
         }
   
       } catch (error) {
-        console.error('Erro ao cadastrar usuário:', error);
+        console.error('Livro não encontrado para comentar ', error);
       }
     };
 
