@@ -3,9 +3,9 @@ import { AuthContext } from "../login/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const RealizarEmprestimo: React.FC = () => {
+const RealizarDevolucao: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const [emprestimoResponse, setEmprestimo] = useState<{ success: boolean, message: string } | null>(null);
+    const [devolucaoResponse, setDevolucaoResponse] = useState<{ success: boolean, message: string } | null>(null);
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -16,28 +16,32 @@ const RealizarEmprestimo: React.FC = () => {
 
         const { usuarioId } = authContext;
 
-        const realizarEmprestimo = async () => {
+        const Devolucao = {
+            usuarioId,
+            livroId: id,
+        }
+
+        const realizarDevolucao = async () => {
             try {
                 console.log(usuarioId);
                 console.log(id);
-                const response = await axios.post(`http://localhost:5162/emprestimo/registrar/true/${id}`, {
-                    usuarioId,
-                    livroId: id,
-                });
-
+                const response = await axios.post(`http://localhost:5162/devolucao/registrar/${id}`, Devolucao);
+                    
                 const data = response.data;
-                setEmprestimo(data);
+                setDevolucaoResponse(data);
 
                 if (data.success) {
-                    alert("Empréstimo realizado com sucesso");
-                    navigate('/pages/listar');
+                    alert("Devolução realizada com sucesso");
+                    
                 }
+                
             } catch (error) {
-                console.error('Erro ao realizar o empréstimo', error);
+                console.error('Erro ao realizar a devolução', error);
             }
+            navigate('/pages/listar');
         };
 
-        realizarEmprestimo();
+        realizarDevolucao();
     }, [authContext, id, navigate]);
 
     if (!authContext) {
@@ -46,13 +50,13 @@ const RealizarEmprestimo: React.FC = () => {
 
     return (
         <div>
-            {emprestimoResponse && (
-                <p className={emprestimoResponse.success ? "success" : "error"}>
-                    {emprestimoResponse.message}
+            {devolucaoResponse && (
+                <p className={devolucaoResponse.success ? "success" : "error"}>
+                    {devolucaoResponse.message}
                 </p>
             )}
         </div>
     );
 };
 
-export default RealizarEmprestimo;
+export default RealizarDevolucao;

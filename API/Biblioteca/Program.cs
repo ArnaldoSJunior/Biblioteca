@@ -239,40 +239,41 @@ app.MapGet("/emprestimo/listar", ([FromServices] AppDbContext ctx) =>
 
 //Registrar Devolução
 
-app.MapPost("/devolucao/registrar", ([FromBody] Devolucao devolucao, [FromServices] AppDbContext ctx) =>
+app.MapPost("/devolucao/registrar/{id}",  ([FromBody] Devolucao devolucao, [FromRoute] string id, [FromServices] AppDbContext ctx) =>
 {
-     var emprestimo = ctx.TabelaEmprestimos.FirstOrDefault(e => e.EmprestimoId == devolucao.EmprestimoId);
+     // Encontrar o empréstimo com base no usuário e livro
+     var emprestimo = ctx.TabelaEmprestimos.FirstOrDefault(e => e.UsuarioId == devolucao.UsuarioId && e.LivroId == devolucao.LivroId);
      if (emprestimo == null)
      {
-          return Results.NotFound(); // Empréstimo não encontrado
+          return Results.NotFound("Empréstimo não encontrado.");
      }
 
-     if (emprestimo.LivroId == null || emprestimo.UsuarioId == null)
+     // Find the book
+     Livro livro = ctx.TabelaLivros.Find(devolucao.LivroId);
+     if (livro == null)
      {
-          return Results.BadRequest("Empréstimo inválido."); // Empréstimo não possui livro ou usuário associado
+          return Results.BadRequest("Livro não encontrado.");
      }
 
-     var livro = ctx.TabelaLivros.Find(emprestimo.LivroId);
-     if (livro != null)
+     // Check if the book is currently loaned out
+     if (!livro.Emprestado == true)
      {
-          if (livro.Emprestado == false)
-          {
-               return Results.BadRequest("O livro já foi devolvido.");
-          }
-
-          livro.Emprestado = false; // Atualize o status de empréstimo do livro
+          return Results.BadRequest("O livro já está disponível.");
      }
-     else
-     {
-          return Results.BadRequest("Livro não associado ao empréstimo."); // Livro não encontrado
-     }
-     emprestimo = null;
-     devolucao.DataDevolucao = DateTime.Now;
-     ctx.TabelaDevolucao.Add(devolucao);
-     ctx.SaveChanges(); // Salve as alterações no banco de dados
 
-     return Results.Ok("Livro devolvido com sucesso.");
+          var livroDev = ctx.TabelaLivros.Find(devolucao.LivroId);
+          // Update the book status to not loaned out
+          livroDev.Emprestado = false;
+
+          ctx.TabelaDevolucao.Add(devolucao);
+
+          ctx.SaveChanges();
+
+          return Results.Ok("Livro devolvido com sucesso.");
+
+
 });
+
 
 
 //Listar Devolução 
@@ -297,7 +298,7 @@ app.MapPost("usuario/login", ([FromServices] AppDbContext ctx, [FromBody] Usuari
      {
           var usu = usuarioExiste.Email;
           var usuId = usuarioExiste.UsuarioId;
-          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!", Permissao = permissao,  Usuario = usu, UsuarioId = usuId});
+          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!", Permissao = permissao, Usuario = usu, UsuarioId = usuId });
      }
      else
      {

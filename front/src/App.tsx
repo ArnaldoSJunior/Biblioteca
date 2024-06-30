@@ -15,7 +15,8 @@ import LivroComentar from './components/pages/comentario/comentario';
 import ListarComentario from './components/pages/listar/listar-comentario';
 import LivroAvaliar from './components/pages/comentario/avaliacao';
 import ListarAvaliacao from './components/pages/listar/listar-Avaliacao';
-import RealizarEmprestimo from './components/pages/devolucao/devolucao';
+import RealizarEmprestimo from './components/pages/emprestimo/emprestimo';
+import RealizarDevolucao from './components/pages/devolucao/devolucao';
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
           <Route path='/livro/:id/avaliar' element={<LivroAvaliar/>}/>
           <Route path='/listar/avaliar/:id' element={<ListarAvaliacao/>} />
           <Route path='/pages/emprestimo/:id' element={<RealizarEmprestimo/>} />
+          <Route path='/pages/devolucao/:id'element={<RealizarDevolucao/>} />
         </Routes>
         <footer>
           <p>Desenvolvido por:</p>

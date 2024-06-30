@@ -66,6 +66,7 @@ function ListarLivro() {
                         <th>Comentarios</th>
                         <th>Avaliações</th>
                         {permissao == 0 && <th>Empréstimo</th>}
+                        {permissao == 0 && <th>Devolução</th>}
                         {permissao == 1 && <th>Deletar</th>}
                         
                     </tr>
@@ -87,12 +88,15 @@ function ListarLivro() {
                                 {permissao == 0 && <button onClick={() => navigate(`/livro/${livro.livroId}/avaliar`)} id="botao">Avaliar</button>}
                                 <button onClick={() => navigate(`/listar/avaliar/${livro.livroId}`)} id="botao">Listar</button>
                             </td>
-                            <td>
-                                {permissao == 0 && <button onClick={() => navigate(`/pages/emprestimo/${livro.livroId}`)} id="botao">Emprestar</button>}
-                            </td>
-                            <td>
-                                {permissao == 1 && <button onClick={() => deletar(livro.livroId!)} id="botao">Deletar</button>}
-                            </td>
+                            {permissao == 0 &&<td>
+                                 <button onClick={() => navigate(`/pages/emprestimo/${livro.livroId}`)} id="botao">Emprestar</button>
+                            </td>}
+                            {permissao == 0 &&<td>
+                                 <button onClick={() => navigate(`/pages/devolucao/${livro.livroId}`)} id="botao">Devolver</button>
+                            </td>}
+                            {permissao == 1 &&<td>
+                                 <button onClick={() => deletar(livro.livroId!)} id="botao">Deletar</button>
+                            </td>}
                             
                         </tr>
                     ))}
