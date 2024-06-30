@@ -1,65 +1,84 @@
 import React, { useContext, useState } from 'react';
 import { Livro } from '../../../models/Livro';
+import axios from 'axios';
+import "../../../styles/cadastro-livro.css";
 
-function CadastrarLivro() {
-    const [titulo, setTitulo] = useState("");
-    const [autor, setAutor] = useState("");
-    const [editora, setEditora] = useState("");
-    const [categoria, setCategoria] = useState("");
+const CadastroLivro = () => {
+  const [titulo, setTitulo] = useState('');
+  const [autor, setAutor] = useState('');
+  const [editora, setEditora] = useState('');
+  const [categoria, setCategoria] = useState('');
+  const [cadastroResponse, setCadastroResponse] = useState<{ success: boolean, message: string } | null>(null);
 
-    function cadastrarLivro(e: any) {
-        e.preventDefault();
+  const cadastrarLivro = async (e: React.FormEvent) => {
+      e.preventDefault();
 
-        const livro: Livro = {
-            titulo: titulo,
-            autor: autor,
-            editora: editora,
-            categoria: categoria,
-        };
+      const livro = {
+          titulo: titulo,
+          autor: autor,
+          editora: editora,
+          categoria: categoria,
+      };
 
-        fetch("http://localhost:3000/livro/cadastrar/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(livro),
-        });
+      try {
+          const response = await axios.post('http://localhost:5162/livro/cadastrar', livro);
 
-    }
-    return(
-        <div>
-      <h1>Cadastar Livro</h1>
-       <form onSubmit={cadastrarLivro}>
-         <label>Titulo:</label>
-        <input
-          type="text"
-          value={titulo}
-          onChange={(e: any) => setTitulo(e.target.value)}
-          required
-        />
-        <label>Autor:</label>
-        <input
-          type="text"
-          onChange={(e: any) => setAutor(e.target.value)}
-          required
-        />
-        <label>Editora:</label>
-        <input
-          type="text"
-          onChange={(e: any) => setEditora(e.target.value)}
-          required
-        />
-        <label>Categoria:</label>
-        <input
-          type="text"
-          onChange={(e: any) => setCategoria(e.target.value)}
-          required
-        />
-        <button type="submit">Cadastrar Livro</button>
-      </form>
-    </div>
-    );
-}
+          const data = response.data;
+          setCadastroResponse(data);
 
+          if (data.success) {
+              // Limpar campos após cadastro bem-sucedido, se necessário
+              setTitulo('');
+              setAutor('');
+              setEditora('');
+              setCategoria('');
+          }
 
-export default CadastrarLivro;
+      } catch (error) {
+          console.error('Erro ao cadastrar livro:', error);
+      }
+  };
+
+  return (
+      <div id="cadastroLivroContainer">
+          <h1>Cadastrar Livro</h1>
+          <form onSubmit={cadastrarLivro}>
+              <label>Título:</label>
+              <input
+                  type="text"
+                  value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}
+                  required
+              />
+              <label>Autor:</label>
+              <input
+                  type="text"
+                  value={autor}
+                  onChange={(e) => setAutor(e.target.value)}
+                  required
+              />
+              <label>Editora:</label>
+              <input
+                  type="text"
+                  value={editora}
+                  onChange={(e) => setEditora(e.target.value)}
+                  required
+              />
+              <label>Categoria:</label>
+              <input
+                  type="text"
+                  value={categoria}
+                  onChange={(e) => setCategoria(e.target.value)}
+                  required
+              />
+              <button type="submit">Cadastrar Livro</button>
+          </form>
+
+          {cadastroResponse && (
+              <p className={cadastroResponse.success ? 'success' : ''}>{cadastroResponse.message}</p>
+          )}
+      </div>
+  );
+};
+
+export default CadastroLivro;

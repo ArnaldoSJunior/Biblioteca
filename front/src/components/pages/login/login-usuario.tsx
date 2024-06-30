@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 import { Usuario } from '../../../models/Usuario';
+import "../../../styles/login.css";
 
 
 interface LoginResponse {
@@ -38,7 +39,7 @@ const Logar = () => {
 
             const data = response.data;
             setLoginResponse(data);
-            if (loginResponse) {
+            if (data.success) {
 
                 authContext?.setPermissao(response.data.permissao);
                 console.log(authContext?.permissao);
@@ -54,32 +55,34 @@ const Logar = () => {
         }
     };
     return (
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Email:</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+        <div id="loginContainer">
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit}>
+            <label>Email:</label>
+            <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
 
-                <label>Senha:</label>
-                <input
-                    type="password"
-                    value={senha}
-                    onChange={(e) => setSenha(e.target.value)}
-                />
+            <label>Senha:</label>
+            <input
+                type="password"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+            />
 
-                <button type="submit">Entrar</button>
-            </form>
+            <button type="submit">Entrar</button>
+        </form>
 
-            {loginResponse ? (
-                <p>Login efetuado com sucesso!</p>
+        {loginResponse ? (
+            loginResponse.Success ? (
+                <p className="success">Login efetuado com sucesso!</p>
             ) : (
                 <p>Usuário ou senha incorretos.</p>
-            )}
-        </div>
+            )
+        ) : null}
+    </div>
     );
 };
 
