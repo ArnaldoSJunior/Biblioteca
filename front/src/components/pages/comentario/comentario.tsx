@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../login/AuthContext';
+import "../../../styles/comentario.css";
 
 const LivroComentar: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -27,12 +28,15 @@ const LivroComentar: React.FC = () => {
             });
 
             const data = response.data;
+            console.log(response.data);
             setComentario(data);
 
             if (data.success) {
                 setTexto('');
-                navigate('/listagem');
+                alert("Comentário adicionado com sucesso");
+                
             }
+            navigate('/pages/listar');
 
         } catch (error) {
             console.error('Livro não encontrado para comentar ', error);
@@ -40,25 +44,25 @@ const LivroComentar: React.FC = () => {
     };
 
     return (
-        <div>
-            <h1>Novo Comentário</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Comentário: </label>
-                <input
-                    type="text"
-                    value={texto}
-                    onChange={(e) => setTexto(e.target.value)}
-                    required
-                />
-                <button type="submit">Comentar</button>
+      <div id="comentarioContainer">
+      <h1>Novo Comentário</h1>
+      <form onSubmit={handleSubmit}>
+          <label>Comentário: </label>
+          <input
+              type="text"
+              value={texto}
+              onChange={(e) => setTexto(e.target.value)}
+              required
+          />
+          <button type="submit">Comentar</button>
 
-                {comentarioResponse && (
-                    <p className={comentarioResponse.success ? "success" : "error"}>
-                        {comentarioResponse.message}
-                    </p>
-                )}
-            </form>
-        </div>
+          {comentarioResponse && (
+              <p className={comentarioResponse.success ? "success" : "error"}>
+                  {comentarioResponse.message}
+              </p>
+          )}
+      </form>
+  </div>
     );
 };
 

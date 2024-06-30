@@ -44,6 +44,7 @@ const Logar = () => {
             if (data.success) {
 
                 authContext?.setPermissao(response.data.permissao);
+                authContext?.setUsuario(response.data.usuario);
                 console.log(authContext?.permissao);
                 console.log("Opa");
 

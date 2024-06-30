@@ -295,7 +295,8 @@ app.MapPost("usuario/login", ([FromServices] AppDbContext ctx, [FromBody] Usuari
      Permissao permissao = usuarioExiste.Permissao;
      if (usuarioExiste != null)
      {
-          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!", Permissao = permissao });
+          var usu = usuarioExiste.Email;
+          return Results.Ok(new LoginResponse { Success = true, Message = "Login efetuado com sucesso!", Permissao = permissao,  Usuario = usu});
      }
      else
      {
