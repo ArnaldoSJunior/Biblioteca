@@ -13,6 +13,8 @@ import Logout from './components/pages/login/logout';
 import Home from './components/pages/home/home';
 import LivroComentar from './components/pages/comentario/comentario';
 import ListarComentario from './components/pages/listar/listar-comentario';
+import LivroAvaliar from './components/pages/comentario/avaliacao';
+import ListarAvaliacao from './components/pages/listar/listar-Avaliacao';
 
 
 function App() {
@@ -59,9 +61,15 @@ function App() {
           <Route path='/pages/login/logout' element={<Logout/>}/>
           <Route path="/livro/:id/comentar" element={<LivroComentar />} />
           <Route path="/listar/comentario/:id" element={<ListarComentario />} />
+          <Route path='/livro/:id/avaliar' element={<LivroAvaliar/>}/>
+          <Route path='/listar/avaliar/:id' element={<ListarAvaliacao/>} />
         </Routes>
         <footer>
-          <p>Desenvolvido por Miguel Viapiana Jung</p>
+          <p>Desenvolvido por:</p>
+          <p>Arnaldo dos Santos Junior</p>
+          <p>Marcel Felipe Lell Flores</p>
+          <p>Miguel Viapiana Jung</p>
+          <p>Rafael Gutowskii</p>
         </footer>
       </BrowserRouter>
     </div>

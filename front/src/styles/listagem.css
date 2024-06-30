@@ -2,12 +2,15 @@
 
 .listagem-container {
     padding: 20px;
+    width: 80vw;
+    margin: auto;
 }
 
 h1 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
+
 }
 
 .listagem-tabela {
@@ -15,6 +18,7 @@ h1 {
     border-collapse: collapse;
     margin-top: 20px;
     box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.42);
+    margin: auto;
 
 }
 

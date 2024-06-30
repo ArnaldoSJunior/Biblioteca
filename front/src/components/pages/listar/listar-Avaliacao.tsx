@@ -6,7 +6,7 @@ import "../../../styles/listagem.css";
 import { useNavigate, useParams } from 'react-router-dom';
 import "../../../styles/listagemComentarios.css";
 
-const ListarComentario: React.FC = () => {
+const ListarAvaliacao: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [livros, setLivros] = useState<Livro[]>([]);
     const authContext = useContext(AuthContext);
@@ -83,21 +83,21 @@ const ListarComentario: React.FC = () => {
                             </td> */}
                         </tr>
                         )}
-                        {livro.comentarios && livro.comentarios.length > 0 && livro.livroId == id && (
+                        {livro.avaliacoes && livro.avaliacoes.length > 0 && livro.livroId == id && (
                             <tr>
                                 <td colSpan={6}>
                                     <table className="comentarios-tabela">
                                         <thead>
                                             <tr>
+                                                <th>Estrelas</th>
                                                 <th>Usuário</th>
-                                                <th>Comentário</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {livro.comentarios?.map((comentario) => (
-                                                <tr key={comentario.id}>
-                                                    <td>{comentario.usuario}</td>
-                                                    <td>{comentario.texto}</td>
+                                            {livro.avaliacoes?.map((avaliacao) => (
+                                                <tr key={avaliacao.id}>
+                                                    <td>{avaliacao.estrelas}</td>
+                                                    <td>{avaliacao.usuario}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -115,4 +115,4 @@ const ListarComentario: React.FC = () => {
     );
 }
 
-export default ListarComentario;
+export default ListarAvaliacao;

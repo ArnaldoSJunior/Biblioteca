@@ -17,10 +17,10 @@ function ListarLivro() {
     if (!authContext) {
         return <p>Carregando...</p>;
     }
-    
+
     const { permissao } = authContext;
 
-    
+
 
     function carregarLivros() {
         fetch("http://localhost:5162/livro/listar/")
@@ -65,6 +65,7 @@ function ListarLivro() {
                         <th>Situação do empréstimo</th>
                         <th>Deletar</th>
                         <th>Comentarios</th>
+                        <th>Avaliações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,10 +79,14 @@ function ListarLivro() {
                             <td>
                                 <button onClick={() => deletar(livro.livroId!)} id="botao">Deletar</button>
                             </td>
-                                <td>
-                                    {permissao == 0 && <button onClick={() => navigate(`/livro/${livro.livroId}/comentar`)} id="botao">Comentar</button>}
-                                    <button onClick={() => navigate(`/listar/comentario/${livro.livroId}`)} id="botao">Listar</button>
-                                </td>
+                            <td>
+                                {permissao == 0 && <button onClick={() => navigate(`/livro/${livro.livroId}/comentar`)} id="botao">Comentar</button>}
+                                <button onClick={() => navigate(`/listar/comentario/${livro.livroId}`)} id="botao">Listar</button>
+                            </td>
+                            <td>
+                                {permissao == 0 && <button onClick={() => navigate(`/livro/${livro.livroId}/avaliar`)} id="botao">Avaliar</button>}
+                                <button onClick={() => navigate(`/listar/avaliar/${livro.livroId}`)} id="botao">Listar</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
