@@ -3,6 +3,7 @@ import { Livro } from "../../../models/Livro";
 import { AuthContext } from "../login/AuthContext";
 import Button from 'react-bootstrap/Button';
 import "../../../styles/listagem.css";
+import axios from "axios";
 
 function ListarLivro() {
     const [livros, setLivros] = useState<Livro[]>([]);
@@ -16,17 +17,34 @@ function ListarLivro() {
     function carregarLivros() {
         fetch("http://localhost:5162/livro/listar/")
             .then((resposta) => resposta.json())
-            .then((livros: Livro[]) => {
-                setLivros(livros);
-                console.table(livros);
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setLivros(data); // Atualiza o estado com os livros recebidos
+                } else {
+                    console.error("Resposta da API não é um array:", data);
+                }
             })
             .catch((erro) => {
-                console.log("Deu Erro!");
+                console.log("Erro ao carregar livros:", erro);
+            });
+    }
+
+    function deletar(id: string) {
+        setLivros(livros.filter(livro => livro.livroId !== id));
+
+        axios.delete(`http://localhost:5162/livro/deletar/${id}`)
+            .then((resposta) => {
+                if (Array.isArray(resposta.data)) {
+                } else {
+                    console.error("Resposta de deleção da API não é um array:", resposta.data);
+                }
+            })
+            .catch((erro) => {
+                console.log("Erro ao deletar livro:", erro);
             });
     }
 
     return (
-        
         <div className="listagem-container">
             <h1>Listagem de Livros</h1>
             <table className="listagem-tabela">
@@ -37,16 +55,20 @@ function ListarLivro() {
                         <th>Editora</th>
                         <th>Categoria</th>
                         <th>Situação do empréstimo</th>
+                        <th>Deletar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {livros.map((livros) => (
-                        <tr key={livros.livroId}>
-                            <td>{livros.titulo}</td>
-                            <td>{livros.autor}</td>
-                            <td>{livros.editora}</td>
-                            <td>{livros.categoria}</td>
-                            <td>{livros.emprestado ? 'Emprestado' : "Disponível"}</td>
+                    {Array.isArray(livros) && livros.map((livro) => (
+                        <tr key={livro.livroId}>
+                            <td>{livro.titulo}</td>
+                            <td>{livro.autor}</td>
+                            <td>{livro.editora}</td>
+                            <td>{livro.categoria}</td>
+                            <td>{livro.emprestado ? 'Emprestado' : 'Disponível'}</td>
+                            <td>
+                                <button onClick={() => deletar(livro.livroId!)} id="botao">Deletar</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -56,43 +78,4 @@ function ListarLivro() {
 }
 
 
-// return (
-//     <div>
-//       <h1>Listar produtos</h1>
-//       <table border={5}>
-//         <thead>
-//           <tr>
-//             <th>#</th>
-//             <th>Nome</th>
-//             <th>Descrição</th>
-//             <th>Valor</th>
-//             <th>Quantidade</th>
-//             <th>Criado Em</th>
-//             <th>Deletar</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {produtos.map((produto) => (
-//             <tr key={produto.id}>
-//               <td>{produto.id}</td>
-//               <td>{produto.nome}</td>
-//               <td>{produto.descricao}</td>
-//               <td>{produto.valor}</td>
-//               <td>{produto.quantidade}</td>
-//               <td>{produto.criadoEm}</td>
-//               <td>
-//                 <button onClick={() => {deletar(produto.id!)}}>Deletar</button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-
-//   function deletar(id: string){
-//     axios.delete(`http://localhost:5169/produtos/deletar/${id}`)
-//         .then(resposta => {
-//             setProdutos(resposta.data);
-//         });
-//   }
 export default ListarLivro;
