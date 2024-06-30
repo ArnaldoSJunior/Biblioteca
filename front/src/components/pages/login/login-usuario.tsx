@@ -20,6 +20,8 @@ const Logar = () => {
     const [loginResponse, setLoginResponse] = useState<LoginResponse | false>(false);
     const authContext = useContext(AuthContext);
 
+    
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 

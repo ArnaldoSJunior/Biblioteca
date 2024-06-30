@@ -1,57 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from '../login/AuthContext';
 
-const livroComentar = () => {
+const LivroComentar: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
     const [texto, setTexto] = useState('');
-    const [usuario, setUsuario] = useState('');
+    const authContext = useContext(AuthContext);
+    
     const [comentarioResponse, setComentario] = useState<{ success: boolean, message: string } | null>(null);
-  
+    const navigate = useNavigate();
+
+    if (!authContext) {
+        return <p>Carregando...</p>;
+    }
+    const { usuario } = authContext;
+    
+
     const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-  
-      const livro = {
-        texto: texto,
-        usuario: usuario,
-      };
-  
-      try {
-        const response = await axios.post(`http://localhost:5162/livro/{id}/comentar/`, usuario);
-  
-        const data = response.data;
-        setComentarioResponse(data);
-  
-        if (data.success) {
-          setTexto('');
-          setUsuario('');
+        e.preventDefault();
+
+        try {
+            const response = await axios.post(`http://localhost:5162/livro/${id}/comentar/`, {
+                texto,
+                usuario,
+            });
+
+            const data = response.data;
+            setComentario(data);
+
+            if (data.success) {
+                setTexto('');
+                navigate('/listagem');
+            }
+
+        } catch (error) {
+            console.error('Livro não encontrado para comentar ', error);
         }
-  
-      } catch (error) {
-        console.error('Livro não encontrado para comentar ', error);
-      }
     };
 
-  return (
-    <h1>Novo Comentario</h1>
-    <form onSubmit={handleSubmit}>
-      <label>Comentario: </label>
-      <input
-        type="text"
-        value={nome}
-        onChange={(e) => setTexto(e.target.value)}
-        required
-      />
-        
-        <label>Usuario</label>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setUsuario(e.target.value)}
-          required
-        />
-        <button type="submit">Comentar</button>
-      </form>
-    </div>
-  );
+    return (
+        <div>
+            <h1>Novo Comentário</h1>
+            <form onSubmit={handleSubmit}>
+                <label>Comentário: </label>
+                <input
+                    type="text"
+                    value={texto}
+                    onChange={(e) => setTexto(e.target.value)}
+                    required
+                />
+                <button type="submit">Comentar</button>
+
+                {comentarioResponse && (
+                    <p className={comentarioResponse.success ? "success" : "error"}>
+                        {comentarioResponse.message}
+                    </p>
+                )}
+            </form>
+        </div>
+    );
 };
 
-export default livroComentar;
+export default LivroComentar;
+

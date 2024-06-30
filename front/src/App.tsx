@@ -11,6 +11,7 @@ import ListarUsuarios from './components/pages/listar/listar-usuarios';
 import { AuthContext } from './components/pages/login/AuthContext';
 import Logout from './components/pages/login/logout';
 import Home from './components/pages/home/home';
+import LivroComentar from './components/pages/comentario/comentario';
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           {permissao == 1 && <Route path='/pages/listar-usuario' element={<ListarUsuarios />} />}
           <Route path='/pages/login' element={<Logar />} />
           <Route path='/pages/login/logout' element={<Logout/>}/>
+          <Route path="/livro/:id/comentar" element={<LivroComentar />} />
         </Routes>
         <footer>
           <p>Desenvolvido por Miguel Viapiana Jung</p>

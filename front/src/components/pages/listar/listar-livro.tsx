@@ -4,15 +4,23 @@ import { AuthContext } from "../login/AuthContext";
 import Button from 'react-bootstrap/Button';
 import "../../../styles/listagem.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ListarLivro() {
     const [livros, setLivros] = useState<Livro[]>([]);
     const authContext = useContext(AuthContext);
-
+    const navigate = useNavigate();
     useEffect(() => {
         console.log("Carregou lista de Livros");
         carregarLivros();
     }, []);
+    if (!authContext) {
+        return <p>Carregando...</p>;
+    }
+    
+    const { permissao } = authContext;
+
+    
 
     function carregarLivros() {
         fetch("http://localhost:5162/livro/listar/")
@@ -56,6 +64,7 @@ function ListarLivro() {
                         <th>Categoria</th>
                         <th>Situação do empréstimo</th>
                         <th>Deletar</th>
+                        {permissao == 0 && <th>Comentar</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -69,6 +78,11 @@ function ListarLivro() {
                             <td>
                                 <button onClick={() => deletar(livro.livroId!)} id="botao">Deletar</button>
                             </td>
+                            {permissao === 0 && (
+                                <td>
+                                    <button onClick={() => navigate(`/livro/${livro.livroId}/comentar`)} id="botao">Comentar</button>
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>
@@ -76,6 +90,7 @@ function ListarLivro() {
         </div>
     );
 }
+
 
 
 export default ListarLivro;
