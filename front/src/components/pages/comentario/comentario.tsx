@@ -40,6 +40,14 @@ const livroComentar = () => {
         onChange={(e) => setTexto(e.target.value)}
         required
       />
+        
+        <label>Usuario</label>
+        <input
+          type="text"
+          value={email}
+          onChange={(e) => setUsuario(e.target.value)}
+          required
+        />
         <button type="submit">Comentar</button>
       </form>
     </div>
