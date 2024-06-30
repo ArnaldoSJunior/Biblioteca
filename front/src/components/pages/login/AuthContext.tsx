@@ -9,7 +9,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [permissao, setPermissao] = useState<number>(0); // 0 representando COMUM
+    const [permissao, setPermissao] = useState<number>(2); // 0 representando COMUM
 
     return (
         <AuthContext.Provider value={{ permissao, setPermissao }}>
