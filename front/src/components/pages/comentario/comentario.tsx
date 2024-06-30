@@ -4,16 +4,14 @@ import axios from 'axios';
 const livroComentar = () => {
     const [texto, setTexto] = useState('');
     const [usuario, setUsuario] = useState('');
-    const [, setSenha] = useState('');
     const [comentarioResponse, setComentario] = useState<{ success: boolean, message: string } | null>(null);
   
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
   
       const livro = {
-        nome: nome,
-        email: email,
-        senha: senha,
+        texto: texto,
+        usuario: usuario,
       };
   
       try {
