@@ -56,7 +56,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home/>}/>
           {permissao == 1 && <Route path="/pages/cadastro-livro" element={<CadastrarLivro />} />}
-          {permissao == 1  && permissao == 2 && <Route path="/pages/cadastro-usuario" element={<CadastarUsuario />} />}
+          {permissao == 1 || permissao == 2 && <Route path="/pages/cadastro-usuario" element={<CadastarUsuario />} />}
           <Route path='/pages/listar' element={<ListarLivro />} />
           {permissao == 1 && <Route path='/pages/listar-usuario' element={<ListarUsuarios />} />}
           <Route path='/pages/login' element={<Logar />} />
