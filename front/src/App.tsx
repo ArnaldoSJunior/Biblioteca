@@ -39,7 +39,7 @@ function App() {
             
             <Link to={"/"} id='botao'>Home</Link>
 
-            {permissao == 1 || permissao == 2 && <Link to={"/pages/cadastro-usuario"} id='botao'>Novo usuários</Link>}
+            {permissao == 1 || permissao == 2 && <Link to={"/pages/cadastro-usuario"} id='botao'>Novo usuário</Link>}
 
             { permissao === 2 && <Link to={"/pages/login"} id='botao'>Login</Link>}
 

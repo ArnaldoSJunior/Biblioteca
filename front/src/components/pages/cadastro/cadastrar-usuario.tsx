@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Usuario } from '../../../models/Usuario';
 import axios from 'axios';
 import "../../../styles/cadastro.css";
+import { useNavigate } from 'react-router-dom';
 
 const CadastroUsuario = () => {
+  const navigate = useNavigate();
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -29,6 +31,8 @@ const CadastroUsuario = () => {
         setEmail('');
         setSenha('');
       }
+
+      navigate('/pages/login');
 
     } catch (error) {
       console.error('Erro ao cadastrar usuário:', error);
